@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const router = express.Router();
 
-const users = [];
+let users = [];
 
 router.get("/", (req, res) => {
   console.log(users);
@@ -18,6 +18,18 @@ router.post("/", (req, res) => {
   res.send(`User ${user.name} added`);
 });
 
-router.get("/:id", (req, res) => {});
+router.get("/:id", (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  const foundUser = users.find((user) => user.id === id);
+
+  res.send(foundUser);
+});
+
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  users = users.filter((user) => user.id !== id);
+  res.send(`User ${id} deleted`);
+});
 
 export default router;
